@@ -1,16 +1,20 @@
 var auth = require('../auth');
+var authobj = auth.authobj;
+var getAuthCode = auth.getAuthCode;
+
 var constants = require('../constants');
 var express = require('express');
 var router = express.Router();
 
 /* GET calendar listing from Learn. */
 router.get('/', function(req, res, next) {
-  if (auth.authcode === null){
+  if (authobj.authcode === null){
     // got no authorization code. need to get one.
-    // auth.getAuthCode(req, constants.LEARNSERVER, constants.KEY);
-    auth.authcode = 1;
-  } else {auth.authcode = auth.authcode+1;}
-  res.send(`todo: authcode ${auth.authcode}, accesstoken, reuqest users calendars`);
+    getAuthCode(req, constants.LEARNSERVER, constants.KEY);
+  } else {
+    auth.getAuthCode(req, constants.LEARNSERVER, constants.KEY);
+  }
+  res.send(`todo: authcode ${authobj.authcode}, accesstoken, reuqest users calendars`);
 });
 
 module.exports = router;
