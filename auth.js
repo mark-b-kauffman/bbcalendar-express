@@ -9,6 +9,7 @@ const request = require('sync-request');
 var authobj = {authcode:null, server:null, token:null, user:null }; 
 
 function getAuthCode(req, learnserver, key){
+  console.log(`learnserver:${learnserver} key:${key}`)
   let url = `https://${learnserver}/learn/api/public/v1/oauth2/authorizationcode?redirect_uri=http://localhost:3000&scope=*&response_type=code&client_id=${key}`;
   if (authobj.authcode == null) {
     console.log('authcode was null');
