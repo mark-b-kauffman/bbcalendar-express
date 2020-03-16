@@ -8,12 +8,20 @@
         </div>
 
         <div>
-          <form action="/newCalendarRequest" method="post">
+          <form action="/new-calendar" method="post">
             <table>
               <tbody>
                 <tr>
                   <td>
-                    - Enter JSON
+                    Enter JSON. If you don't use this the code will blow up. <br />
+                    Make certain to use double quotes or the JSON parser won't work <br />
+                    Be sure to use an existing calendarId. Make certain your <br />
+                    start time is prior to your end time. <br />
+                    Format: <br />
+                    {"calendarId": "_4_1",
+                    "title": "first new item from REST",
+                    "start": "2020-03-19T19:00:00.000Z",
+                    "end": "2020-04-19T19:00:00.000Z"}
                     <br />
                     <textarea rows="4" cols="50" name="custom_content" ></textarea>
                   </td>

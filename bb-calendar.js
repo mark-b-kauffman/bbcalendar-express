@@ -73,13 +73,50 @@ const createPersonalCalendarItem = async (learnserver, accessToken, calendarOpti
     'title': calendarOptions.title,
     'start': calendarOptions.start,
     'end': calendarOptions.end
-  };
-  
+  };  
   console.log('Creating calendar item with: ', postOptions);
   const response = await bbClient(learnserver, accessToken).post('/learn/api/public/v1/calendars/items', postOptions);
   console.log('createCalendarItem response: ', response.data);
   return response.data;
 }
+
+const createCourseCalendarItem = async (learnserver, accessToken, calendarOptions) => {
+  const postOptions = {
+    'type': 'Course',
+    'calendarId': calendarOptions.calendarId,
+    'title': calendarOptions.title,
+    'start': calendarOptions.start,
+    'end': calendarOptions.end
+  };  
+  console.log('Creating calendar item with: ', postOptions);
+  try {
+  const response = await bbClient(learnserver, accessToken).post('/learn/api/public/v1/calendars/items', postOptions);
+  console.log('createCalendarItem response: ', response.data);
+  return response.data;
+  } catch (error) {
+      // Error 😨
+      if (error.response) {
+        /*
+        * The request was made and the server responded with a
+        * status code that falls out of the range of 2xx
+        */
+        console.log(error.response.data);
+        console.log(error.response.status);
+        console.log(error.response.headers);
+    } else if (error.request) {
+        /*
+        * The request was made but no response was received, `error.request`
+        * is an instance of XMLHttpRequest in the browser and an instance
+        * of http.ClientRequest in Node.js
+        */
+        console.log(error.request);
+    } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log('Error', error.message);
+    }
+    console.log(error);
+  }// end catch
+}// end createCourseCalendarItem
 
 const getCourseById = async (learnserver, accessToken, courseId) => {
   const response = await bbClient(learnserver, accessToken).get(`/learn/api/public/v1/courses/${courseId}`);
@@ -143,6 +180,7 @@ var exports = module.exports;
 exports.currentUser = currentUser;
 exports.searchCalendar = searchCalendar;
 exports.createPersonalCalendarItem = createPersonalCalendarItem;
+exports.createCourseCalendarItem = createCourseCalendarItem;
 exports.getCourseById = getCourseById;
 exports.getCourseByName = getCourseByName;
 exports.getCourses = getCourses;
