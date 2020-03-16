@@ -5,7 +5,7 @@
 'use strict'
 const base64url = require('base64url');
 const bodyParser = require('body-parser');
-const request = require('sync-request');
+const request = require('sync-request'); // NOT MEANT FOR PRODUCTION USE
 const url = require('url');
 
 var authobj = {authcode:null, server:null, token:null, user:null }; 
