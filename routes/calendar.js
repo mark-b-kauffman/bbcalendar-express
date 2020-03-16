@@ -1,6 +1,8 @@
 var auth = require('../auth');
 var bbCalendar = require('../bb-calendar');
 var authobj = auth.authobj;
+var crview = require('../views/calendarRequestView');
+var render = crview.render;
 var getAuthCode = auth.getAuthCode;
 var getToken = auth.getToken;
 
@@ -40,7 +42,8 @@ router.get('/', async function(req, res, next) {
     sort: 'start'
   });
 
-  res.send(`authcode:${authobj.authcode},</br> accesstoken:${authobj.token.access_token},</br> Request Users:${JSON.stringify(currentUser)},</br></br> Calendars ${JSON.stringify(currentUserCal)}`);
+  res.send(`${render(authobj.token.access_token, currentUser, currentUserCal)}`);
+  // res.send(`authcode:${authobj.authcode},</br> accesstoken:${authobj.token.access_token},</br> Request Users:${JSON.stringify(currentUser)},</br></br> Calendars ${JSON.stringify(currentUserCal)}`);
 
 }); // END router.get('/',
 
