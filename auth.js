@@ -24,7 +24,7 @@ function getAuthCode(req, res, learnserver, key){
   authobj.authcode = req.query.code;
   if (authobj.authcode == null) {
     console.log('authcode was null');
-    res.redirect(authcodeUrl);
+    res.redirect(authcodeUrl); // because we redirect here, this method MUST be called a second time.
   } else {
     authobj.authcode = authobj.authcode;
   }
@@ -51,11 +51,15 @@ function getToken(req, res, learnserver, key, secret){
     body: "grant_type=authorization_code",
     strictSSL: true,
     resolveWithFullResponse: false
-  }; 
-  let resp = request('POST', tokenUrl, options);
-  let respBody = resp.getBody();
-  console.log(`resp.getBody:${respBody}`);
-  authobj.token = JSON.parse(respBody);
+  };
+  // No need to POST again if we already have a token.
+  // Can add check for expiry later.
+  if (authobj.token == null){ 
+    let resp = request('POST', tokenUrl, options);
+    let respBody = resp.getBody();
+    console.log(`resp.getBody:${respBody}`);
+    authobj.token = JSON.parse(respBody);
+  }
   console.log(`authobj.token.access_token:${authobj.token.access_token}`); 
   console.log('exit getToken'); 
 } //END getToken
