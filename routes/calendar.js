@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
     getToken(req,res, constants.LEARNSERVER, constants.KEY, constants.SECRET);
   }
 
-  res.send(`todo: authcode ${authobj.authcode}, accesstoken, request users calendars`);
+  res.send(`todo: authcode:${authobj.authcode}, accesstoken:${authobj.token.access_token}, request users calendars`);
 });
 
 module.exports = router;

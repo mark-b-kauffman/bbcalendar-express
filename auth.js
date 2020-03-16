@@ -54,7 +54,9 @@ function getToken(req, res, learnserver, key, secret){
   }; 
   let resp = request('POST', tokenUrl, options);
   let respBody = resp.getBody();
-  console.log(`resp.getBody:${respBody}`);  
+  console.log(`resp.getBody:${respBody}`);
+  authobj.token = JSON.parse(respBody);
+  console.log(`authobj.token.access_token:${authobj.token.access_token}`); 
   console.log('exit getToken'); 
 } //END getToken
 
