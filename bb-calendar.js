@@ -37,12 +37,18 @@ const currentUser = async (learnserver, accessToken) => {
   return response.data;
 }
 
-const searchCalendar = async (learnserver, accessToken, params) => {
-  console.log('searching calendar with: ', params);
-  const response = await bbClient(accessToken).get('/learn/api/public/v1/calendars/items', {
-    params: params
+const searchCalendar = async (learnserver, accessToken, blah) => {
+  console.log('searching calendar with: ', blah);
+  /* 2020.03.16 we'll go with an unfiltered response with all items for now...
+  const response = await bbClient(learnserver, accessToken).get('/learn/api/public/v1/calendars/items', {
+    params: blah
   });
+  */
+  const response = await bbClient(learnserver, accessToken).get('/learn/api/public/v1/calendars/items?type=Course');
+
   console.log("searchCalender response: ", response.data);
+  const unfilteredResponse = response.data.results;
+  /*
   const filteredResponse = response.data.results
     .filter(event => {
 
@@ -56,7 +62,8 @@ const searchCalendar = async (learnserver, accessToken, params) => {
       return startsAfter(event, params.since) && startsBefore(event, params.until);
     });
   console.log("searchCalender filteredResponse: ", filteredResponse);
-  return filteredResponse;
+  */
+  return unfilteredResponse;
 };
 
 const createPersonalCalendarItem = async (learnserver, accessToken, calendarOptions) => {
