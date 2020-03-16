@@ -32,21 +32,30 @@ function getAuthCode(req, res, learnserver, key){
 
 // This should only be called AFTER we have a authorization code.
 function getToken(req, res, learnserver, key, secret){
-  let tokenUrl = `https://${learnserver}/learn/ap/public/v1/oauth2/token?code=${authobj.authcode}`;
+  console.log('enter getToken');
+  // build the redirectUri based on where we are currently running.
+  var protocol = req.protocol;
+  var subdomains = req.subdomains;
+  var hostname = req.get('host');
+  var path = url.parse(req.originalUrl).pathname;
+  var redirectUri = protocol+"://"+subdomains+hostname+path;
+  console.log(`redirectUri:${redirectUri}`);
+  let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${authobj.authcode}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);
+
   var authHeader = 'Basic ' + new Buffer(key + ':' + secret).toString('base64');
   var options = {                
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded body',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: authHeader
               },
-    form: {grant_type: 'authorization_code'},
+    body: "grant_type=authorization_code",
     strictSSL: true,
-    resolveWithFullResponse: false,
-    json: true
+    resolveWithFullResponse: false
   }; 
-  //let resp = request('POST', tokenUrl, options);
-  //let respBody = resp.getBody();
-  //console.log(`resp.getBody:${respBody}`);   
+  let resp = request('POST', tokenUrl, options);
+  let respBody = resp.getBody();
+  console.log(`resp.getBody:${respBody}`);  
+  console.log('exit getToken'); 
 } //END getToken
 
 
