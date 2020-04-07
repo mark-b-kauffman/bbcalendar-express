@@ -11,7 +11,8 @@ var express = require('express');
 var router = express.Router();
 
 /* GET calendar listing from Learn. Display a form for sending an new calendar item. */
-// 2020.03.16 modified the router to be async so we can call async code.
+// 2020.03.16 Modified the router to be async so we can call async code from the 
+//            functions it calls.
 router.get('/', async function(req, res, next) {
   // The following will look for an authorization code on the query string parameter code=
   // If it's there it's placed in authobj.authcode. If not we go through the first bit of flow

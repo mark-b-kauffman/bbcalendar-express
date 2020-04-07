@@ -15,8 +15,8 @@
                   <td>
                     Enter JSON. If you don't use this the code will blow up. <br />
                     Make certain to use double quotes or the JSON parser won't work <br />
-                    Be sure to use an existing calendarId. Make certain your <br />
-                    start time is prior to your end time. <br />
+                    Be sure to use an existing calendarId. calendarId is the course_id/PK1. <br />
+                    Make certain your start time is prior to your end time. <br />
                     Format: <br />
                     {"calendarId": "_4_1",
                     "title": "first new item from REST",

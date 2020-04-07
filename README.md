@@ -19,6 +19,14 @@ v10.15.3\
 
 Be sure you modify constants.js with the learnserer, key and secret you are working with.
 
+On MacOS or Linux, run the app with this command:
+$ DEBUG=myapp:* npm start
+
+On Windows, use this command:
+> set DEBUG=myapp:* & npm start
+
+Browse to http://localhost:3000/calendar
+
 2020.03.16 - WIP. Visit /calendar. First we get an authorization code, if you're not logged into Learn you'll be asked to. Then we do a POST to get the access token. Next we do a REST request
 to the calendar items endpoint to get the logged in user's course calendar items. 
 We display all the calendar items as JSON and a form from which you can submit your
