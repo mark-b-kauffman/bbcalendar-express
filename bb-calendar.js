@@ -13,23 +13,13 @@
 /* eslint-disable func-names */
 /* eslint-disable no-console */
 const axios = require('axios');
+const client = require('./bb-client');
+const bbClient = client.bbClient;
 const moment = require('moment-timezone');
 
 //
 // LEARN REST API ACCESS
 //
-const bbClient = (learnserver, bearerToken) => {
-  const client = axios.create({
-    baseURL: `https://${learnserver}`
-  });
-  
-  // Alter defaults after instance has been created
-  client.defaults.headers.common.Authorization = 'Bearer ' + bearerToken;
-  client.defaults.headers.common.Accept = 'application/json';
-  client.defaults.headers.post['Content-Type'] = 'application/json';
-
-  return client;
-};
 
 const currentUser = async (learnserver, accessToken) => {
   var response = await bbClient(learnserver, accessToken).get('/learn/api/public/v1/users/me');

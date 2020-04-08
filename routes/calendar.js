@@ -30,22 +30,23 @@ router.get('/', async function(req, res, next) {
     getToken(req,res, constants.LEARNSERVER, constants.KEY, constants.SECRET);
   }
 
-  let currentUser = '';
-  let currentUserCal = '';
+  if (authobj.token != null) { // only make our REST requests after we have a token.access_token
+    let currentUser = '';
+    let currentUserCal = '';
 
-  console.log(`Calling bbCalendar.currentUser learnserver:${constants.LEARNSERVER} token:${authobj.token.access_token}`);
-  currentUser = await bbCalendar.currentUser(constants.LEARNSERVER, authobj.token.access_token);
+    console.log(`Calling bbCalendar.currentUser learnserver:${constants.LEARNSERVER} token:${authobj.token.access_token}`);
+    currentUser = await bbCalendar.currentUser(constants.LEARNSERVER, authobj.token.access_token);
 
-  // currentUserCal = await bbCalendar.searchCalendar(constants.LEARNSERVER, authobj.token.access_token, {since:"2018-01-01T00:00:00.000Z", until: "2050-02-01T00:00:00.000Z"} );
-  currentUserCal = await bbCalendar.searchCalendar(constants.LEARNSERVER, authobj.token.access_token, {
-    since: '2000-01-D01T00:00:00.000Z',
-    until: '2030-01-D01T00:00:00.000Z',
-    sort: 'start'
-  });
+    // currentUserCal = await bbCalendar.searchCalendar(constants.LEARNSERVER, authobj.token.access_token, {since:"2018-01-01T00:00:00.000Z", until: "2050-02-01T00:00:00.000Z"} );
+    currentUserCal = await bbCalendar.searchCalendar(constants.LEARNSERVER, authobj.token.access_token, {
+      since: '2000-01-D01T00:00:00.000Z',
+      until: '2030-01-D01T00:00:00.000Z',
+      sort: 'start'
+    });
 
-  res.send(`${render(authobj.token.access_token, currentUser, currentUserCal)}`);
-  // res.send(`authcode:${authobj.authcode},</br> accesstoken:${authobj.token.access_token},</br> Request Users:${JSON.stringify(currentUser)},</br></br> Calendars ${JSON.stringify(currentUserCal)}`);
-
+    res.send(`${render(authobj.token.access_token, currentUser, currentUserCal)}`);
+    // res.send(`authcode:${authobj.authcode},</br> accesstoken:${authobj.token.access_token},</br> Request Users:${JSON.stringify(currentUser)},</br></br> Calendars ${JSON.stringify(currentUserCal)}`);
+  }// END if (authobj.token != null) {
 }); // END router.get('/',
 
 module.exports = router;
