@@ -29,7 +29,7 @@ const bbClient = (learnserver, bearerToken) => {
 
 // This should only be called AFTER we have a authorization code.
 // TODO: REWRITE postForToken to use axios. Everything else works.
-const postForToken = (req, res, learnserver, key, secret, authobj) => {
+const postForToken = (req, res, learnserver, key, secret, code) => {
   console.log('ENTER postForToken');
   // build the redirectUri based on where we are currently running.
   var protocol = req.protocol;
@@ -38,7 +38,7 @@ const postForToken = (req, res, learnserver, key, secret, authobj) => {
   var path = url.parse(req.originalUrl).pathname;
   var redirectUri = protocol+"://"+subdomains+hostname+path;
   console.log(`redirectUri:${redirectUri}`);
-  let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${authobj.authcode}&redirect_uri=${redirectUri}`;
+  let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${code}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);
 
   var authHeader = 'Basic ' + new Buffer(key + ':' + secret).toString('base64');
@@ -50,16 +50,13 @@ const postForToken = (req, res, learnserver, key, secret, authobj) => {
     strictSSL: true,
     resolveWithFullResponse: false
   };
-  // No need to POST again if we already have a token.
-  // Can add check for expiry later.
-  if (authobj.token == null){ 
-    let resp = request('POST', tokenUrl, options);
-    let respBody = resp.getBody();
-    console.log(`RESPONSE BODY from postForToken resp.getBody:${respBody}`);
-    authobj.token = JSON.parse(respBody);
-  }
-  console.log(`authobj.token.access_token:${authobj.token.access_token}`); 
+
+  let resp = request('POST', tokenUrl, options);
+  let respBody = resp.getBody();
+  console.log(`RESPONSE BODY from postForToken resp.getBody:${respBody}`);
+
   console.log('EXIT postForToken'); 
+  return resp;
 } //END postForToken
 
 module.exports = {

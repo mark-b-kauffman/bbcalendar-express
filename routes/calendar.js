@@ -1,4 +1,4 @@
-var auth = require('../auth');
+var auth = require('../auth-axios');
 var bbCalendar = require('../bb-calendar');
 var authobj = auth.authobj;
 var crview = require('../views/calendarRequestView');
@@ -21,7 +21,7 @@ router.get('/', async function(req, res, next) {
   // so no redirect. The following then just sets the code on authobj.authcode.
   getAuthCode(req, res, constants.LEARNSERVER, constants.KEY);
 
-  if (authobj.authcode != null){
+  if (authobj.authcode != null ){
     // POST to the Learn server to get the access token.
     // Or if we already have the token, there will be no POST.
     // We can add code to getToken for managing expiration later.

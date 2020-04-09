@@ -33,7 +33,7 @@ function getAuthCode(req, res, learnserver, key){  // async not required we're j
   }
 } // END getAuthCode
 
-// This should only be called AFTER we have a authorization code.
+// The following should only be called AFTER we have a authorization code.
 // We've switched this from what we had in auth.js to use axios.
 async function getToken(req, res, learnserver, key, secret){
   console.log('ENTER getToken');
@@ -44,9 +44,9 @@ async function getToken(req, res, learnserver, key, secret){
   // No need to POST again if we already have a token.
   // Todo: check for expiry.
   if (authobj.token == null){ 
-    let resp =  bbClient.postForToken(req, res, learnserver, key, secret, authobj);
+    let resp =  bbClient.postForToken(req, res, learnserver, key, secret, authobj.authcode);
     let respBody = resp.getBody();
-    console.log(`resp.getBody:${respBody}`);
+    console.log(`getToken called postForToken and got resp.getBody:${respBody}`);
     authobj.token = JSON.parse(respBody);
   }
   console.log(`authobj.token.access_token:${authobj.token.access_token}`); 
