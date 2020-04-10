@@ -44,10 +44,14 @@ async function getToken(req, res, learnserver, key, secret){
   // No need to POST again if we already have a token.
   // Todo: check for expiry.
   if (authobj.token == null){ 
-    let resp =  bbClient.postForToken(req, res, learnserver, key, secret, authobj.authcode);
-    let respBody = resp.getBody();
-    console.log(`getToken called postForToken and got resp.getBody:${respBody}`);
-    authobj.token = JSON.parse(respBody);
+    let resp =  await bbClient.postForToken(req, res, learnserver, key, secret, authobj.authcode);
+    // let respBody = resp.getBody();
+    // This is one diff between axios and sync-request. sync-request response has a getBody() method.
+    // Another is that resp.getBody() returns a string, while resp.data is an object.
+    let respBody = resp.data; 
+    console.log(`getToken called postForToken and resp.data of ${respBody}`);
+    // authobj.token = JSON.parse(respBody); // So we no longer need to parse the string into an object!
+    authobj.token = resp.data;
   }
   console.log(`authobj.token.access_token:${authobj.token.access_token}`); 
   console.log('EXIT getToken'); 

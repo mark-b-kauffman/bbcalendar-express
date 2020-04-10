@@ -27,7 +27,7 @@ router.get('/', async function(req, res, next) {
     // We can add code to getToken for managing expiration later.
     // The following does cache the access token so we're not doing the 
     // POST on every getToken
-    getToken(req,res, constants.LEARNSERVER, constants.KEY, constants.SECRET);
+    await getToken(req,res, constants.LEARNSERVER, constants.KEY, constants.SECRET);
   }
 
   if (authobj.token != null) { // only make our REST requests after we have a token.access_token

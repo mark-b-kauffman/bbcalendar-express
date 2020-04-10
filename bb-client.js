@@ -27,10 +27,19 @@ const bbClient = (learnserver, bearerToken) => {
   return client;
 };
 
+const bbTokenClient = (learnserver) =>{
+  const client = axios.create({
+    baseUrl: `https://${learnserver}`
+  });
+  return client;
+}
+
 // This should only be called AFTER we have a authorization code.
 // TODO: REWRITE postForToken to use axios. Everything else works.
-const postForToken = (req, res, learnserver, key, secret, code) => {
+const postForToken = async (req, res, learnserver, key, secret, code) => {
   console.log('ENTER postForToken');
+  let myClient = bbTokenClient(learnserver);
+  console.log('have myClient')
   // build the redirectUri based on where we are currently running.
   var protocol = req.protocol;
   var subdomains = req.subdomains;
@@ -41,19 +50,19 @@ const postForToken = (req, res, learnserver, key, secret, code) => {
   let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${code}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);
 
-  var authHeader = 'Basic ' + new Buffer(key + ':' + secret).toString('base64');
+  var authHeader = 'Basic ' + new Buffer.from(key + ':' + secret).toString('base64');
   var options = {                
     headers: { 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: authHeader
               },
-    body: "grant_type=authorization_code",
-    strictSSL: true,
-    resolveWithFullResponse: false
   };
 
-  let resp = request('POST', tokenUrl, options);
-  let respBody = resp.getBody();
-  console.log(`RESPONSE BODY from postForToken resp.getBody:${respBody}`);
+  // let resp = request('POST', tokenUrl, options);
+  console.log(`myClient.post @ {tokenUrl}`);
+  let resp = await myClient.post(tokenUrl, "grant_type=authorization_code", options);
+  console.log(`back from post. resp.status:${resp.status}`);
+  let respBody = resp.data;
+  console.log(`RESPONSE BODY from postForToken resp.data:${JSON.stringify(respBody)}`);
 
   console.log('EXIT postForToken'); 
   return resp;

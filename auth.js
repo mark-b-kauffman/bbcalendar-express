@@ -43,7 +43,7 @@ function getToken(req, res, learnserver, key, secret){
   let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${authobj.authcode}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);
 
-  var authHeader = 'Basic ' + new Buffer(key + ':' + secret).toString('base64');
+  var authHeader = 'Basic ' + new Buffer.from(key + ':' + secret).toString('base64');
   var options = {                
     headers: { 'Content-Type': 'application/x-www-form-urlencoded',
                 Authorization: authHeader
