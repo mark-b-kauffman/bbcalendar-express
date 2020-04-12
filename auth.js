@@ -17,7 +17,7 @@ function getAuthCode(req, res, learnserver, key){
   var subdomains = req.subdomains;
   var hostname = req.get('host');
   var path = url.parse(req.originalUrl).pathname;
-  var redirectUri = protocol+"://"+subdomains+hostname+path;
+  var redirectUri = protocol+"://"+hostname+path;
   console.log(`redirectUri: ${redirectUri}`);
   let authcodeUrl = `https://${learnserver}/learn/api/public/v1/oauth2/authorizationcode?redirect_uri=${redirectUri}&scope=*&response_type=code&client_id=${key}`;
   console.log(`authcodeUrl:${authcodeUrl}`)
@@ -38,7 +38,7 @@ function getToken(req, res, learnserver, key, secret){
   var subdomains = req.subdomains;
   var hostname = req.get('host');
   var path = url.parse(req.originalUrl).pathname;
-  var redirectUri = protocol+"://"+subdomains+hostname+path;
+  var redirectUri = protocol+"://"+hostname+path;
   console.log(`redirectUri:${redirectUri}`);
   let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${authobj.authcode}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);

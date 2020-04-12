@@ -1,4 +1,4 @@
-var auth = require('../auth-axios');
+var auth = require('../auth');
 var bbCalendar = require('../bb-calendar');
 var authobj = auth.authobj;
 var crview = require('../views/calendarRequestView');

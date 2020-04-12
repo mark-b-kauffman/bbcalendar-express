@@ -20,7 +20,7 @@ function getAuthCode(req, res, learnserver, key){  // async not required we're j
   var subdomains = req.subdomains;
   var hostname = req.get('host');
   var path = url.parse(req.originalUrl).pathname;
-  var redirectUri = protocol+"://"+subdomains+hostname+path;
+  var redirectUri = protocol+"://"+hostname+path;
   console.log(`redirectUri: ${redirectUri}`);
   let authcodeUrl = `https://${learnserver}/learn/api/public/v1/oauth2/authorizationcode?redirect_uri=${redirectUri}&scope=*&response_type=code&client_id=${key}`;
   console.log(`authcodeUrl:${authcodeUrl}`)

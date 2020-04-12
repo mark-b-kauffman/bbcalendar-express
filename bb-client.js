@@ -45,7 +45,7 @@ const postForToken = async (req, res, learnserver, key, secret, code) => {
   var subdomains = req.subdomains;
   var hostname = req.get('host');
   var path = url.parse(req.originalUrl).pathname;
-  var redirectUri = protocol+"://"+subdomains+hostname+path;
+  var redirectUri = protocol+"://"+hostname+path;
   console.log(`redirectUri:${redirectUri}`);
   let tokenUrl = `https://${learnserver}/learn/api/public/v1/oauth2/token?code=${code}&redirect_uri=${redirectUri}`;
   console.log(`tokenUrl:${tokenUrl}`);
