@@ -1,5 +1,5 @@
 // handles a POST for a new Calendar Item from calendarRequestView.js
-var auth = require('../auth');
+var auth = require('../auth-axios'); // auth/auth-axios choice. must match in calendar.js
 var bbCalendar = require('../bb-calendar');
 var authobj = auth.authobj;
 
@@ -23,6 +23,7 @@ router.post('/', async function(req, res, next) {
   console.log(`#####POST TO new-calendar: ${req}`);
   console.log(`#####req.body:${JSON.stringify(req.body.custom_content)}`);
   let calendarOptions = JSON.parse(req.body.custom_content);
+
   resp = await bbCalendar.createCourseCalendarItem(constants.LEARNSERVER,
                             authobj.token.access_token,calendarOptions );
   res.redirect('/calendar');

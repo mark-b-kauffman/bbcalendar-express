@@ -1,4 +1,4 @@
-var auth = require('../auth');
+var auth = require('../auth-axios'); // auth/auth-axios choice. must match in new-calendar.js
 var bbCalendar = require('../bb-calendar');
 var authobj = auth.authobj;
 var crview = require('../views/calendarRequestView');
